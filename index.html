@@ -1,0 +1,101 @@
+<!DOCTYPE html><html><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1,viewport-fit=cover"><meta name=apple-mobile-web-app-capable content=yes><meta name=apple-mobile-web-app-title content=ACH580><title>ACH580</title>
+<style>
+*{box-sizing:border-box}body{margin:0;font:15px -apple-system,sans-serif;background:#10151c;color:#e8eef5;padding:env(safe-area-inset-top) 0 env(safe-area-inset-bottom)}
+#sp{position:fixed;inset:0;background:#05080d;z-index:9;display:flex;align-items:center;justify-content:center;overflow:hidden}
+#tx{font:700 26px/1.35 Georgia,serif;text-align:center;padding:24px;max-width:90vw;position:relative;z-index:2}
+.f0{color:#ff6a00;text-shadow:0 0 8px #f00,0 -6px 14px #ff0;animation:fl .15s infinite alternate}@keyframes fl{to{text-shadow:0 0 14px #f60,0 -12px 20px #fa0;transform:translateY(-2px)}}
+.ic{color:#9be7ff;text-shadow:0 0 6px #4cf;display:inline-block;position:relative}.ic:after{content:"";position:absolute;left:30%;top:100%;border:3px solid transparent;border-top:12px solid #bff;border-bottom:0}
+.wind{position:absolute;top:30%;left:-100%;width:200%;height:3px;background:linear-gradient(90deg,transparent,#fff6,transparent);animation:w 1.2s linear infinite}
+@keyframes w{to{transform:translateX(50%)}}
+.wat{position:absolute;bottom:0;left:0;right:0;height:25%;background:repeating-linear-gradient(100deg,#0a4f8f 0 20px,#1b86d1 20px 40px);background-size:80px 100%;animation:wv 1.5s linear infinite;opacity:.7}@keyframes wv{to{background-position:80px 0}}
+#sk{position:absolute;bottom:8px;font-size:12px;color:#889}
+nav{display:flex;overflow-x:auto;background:#0a3d62;position:sticky;top:0;z-index:5}nav button{flex:none;background:none;border:0;color:#cfe;padding:12px 14px;font-size:14px}nav .on{background:#fff2;color:#fff;font-weight:700}
+section{display:none;padding:12px;max-width:640px;margin:auto}section.on{display:block}
+.vfd{background:#d9dde2;border-radius:14px;padding:12px;color:#111;margin:auto;max-width:340px}
+.scr{background:#bfe3d0;border:3px solid #556;border-radius:6px;font-family:monospace;padding:6px;min-height:200px;color:#012}
+.scr .hd{display:flex;justify-content:space-between;border-bottom:1px solid #012;font-size:12px;padding-bottom:3px}.scr .r{font-size:20px;margin:6px 0}.scr .sel{background:#012;color:#bfe3d0}
+.sf{display:flex;justify-content:space-between;font-size:12px;border-top:1px solid #012;margin-top:4px;padding-top:3px}
+.kp{display:grid;grid-template-columns:repeat(4,1fr);gap:6px;margin-top:10px}.kp button{padding:12px 2px;border-radius:8px;border:1px solid #889;background:#f4f4f6;font-weight:700;font-size:13px}
+.off{background:#e33!important;color:#fff}.hand{background:#fb0!important}.auto{background:#3a5!important;color:#fff}
+.b{display:inline-block;border:1px solid #889;background:#eee;color:#111;border-radius:5px;padding:1px 7px;margin:0 2px;font-weight:700;font-size:13px}
+.card{background:#1a222d;border-radius:10px;padding:12px;margin:10px 0}.card h3{margin:0 0 6px;font-size:16px}
+input,select{width:100%;padding:11px;border-radius:8px;border:1px solid #567;background:#0d1219;color:#fff;font-size:16px;margin:4px 0}
+.btn{background:#1b86d1;color:#fff;border:0;border-radius:8px;padding:10px 14px;font-size:14px;margin:3px 2px;text-decoration:none;display:inline-block}
+table{width:100%;border-collapse:collapse;font-size:13px}td,th{border-bottom:1px solid #345;padding:5px;text-align:left}
+.pair{display:flex;gap:8px}.pair .vfd{flex:1;font-size:11px;padding:6px}.ok{color:#6f6}.bad{color:#f88}
+.fl{display:flex;gap:6px;align-items:center;margin:4px 0}.fl input{width:90px}
+.zw{overflow:auto;max-height:70vh;border:1px solid #345;background:#fff}.zw img{display:block;height:auto}.mt{background:#2a1;}.st{background:#223;padding:8px;border-radius:8px;white-space:pre-wrap;font-size:13px;max-height:200px;overflow:auto}.flt{background:#a00;color:#fff;padding:6px;border-radius:6px;margin:4px 0}.wrn{background:#b70;color:#fff;padding:6px;border-radius:6px;margin:4px 0}</style></head><body>
+<div id=sp onclick=skip()><div class=wind></div><div class=wind style="top:15%;animation-delay:.4s"></div><div id=tx></div><div class=wat></div><div id=sk>tap to skip</div></div>
+<script src=data.js></script><script src=imgs-lessons.js></script><script src=imgs-diagrams.js></script><nav id=nv></nav>
+<section id=s0><div class=vfd><div class=scr id=scr></div><div class=kp>
+<button onclick="soft('L')">◀ Soft L</button><button onclick="nav(-1)">▲</button><button onclick="nav(1)">▼</button><button onclick="soft('R')">Soft R ▶</button>
+<button onclick="helpK()">?</button><button onclick="lr()">LOC/REM</button><button class=hand onclick="mode('HAND')">HAND</button><button class=auto onclick="mode('AUTO')">AUTO</button>
+<button class=off onclick="mode('OFF')">OFF</button><button onclick="bump(1)">Ref +</button><button onclick="bump(-1)">Ref −</button><button onclick="ai.value=(+ai.value+1).toFixed(1);ai.oninput()">AI1 +1V</button></div></div>
+<div class=card>Panel keys follow the layout on manual p.44–45. Home view 1 (default, p.48): 01.06 Output frequency, 01.07 Motor current, 12.11 AI1 actual value.
+<a class=btn href="manual.html?p=48">Manual p.48</a><a class=btn href="manual.html?p=44">p.44</a>
+<div class=fl>AI1 (V) <input id=ai type=number value=5 step=.5 oninput="sim()"></div></div></section>
+<section id=s1><div class=card><h3>Setup</h3><select id=mac onchange=wire()><option value=h>HVAC Default (p.97–100)</option><option value=p>PID control (p.101–102)</option></select><div id=wr></div></div>
+<div class=card><h3>Select parameters for me</h3><button class=btn onclick=autoP()>Apply macro parameters</button><div id=ap></div></div>
+<div class=card><h3>Application examples (p.137–151)</h3><div id=ex></div></div>
+<div class=card><h3>Local vs. external control</h3>Local: panel keys (HAND / OFF) control the drive; reference from panel. External (AUTO): start/stop and reference come from I/O or fieldbus per 20.01/22.11. Press LOC/REM to toggle. <a class=btn href="manual.html?p=103">p.103</a></div></section>
+<section id=s2><input id=q placeholder="Search parameters (e.g. 22.11, ramp, AI1)" oninput=ps()><div id=pr></div></section>
+<section id=s3><input id=fq placeholder="Search faults/warnings (code or word)" oninput=fs()><div id=fr></div></section>
+<section id=s4><div class=card><h3>Simulate backup</h3><ol id=bk></ol><div class=pair><div class=vfd>VFD A (source)<div class=scr style="min-height:70px">Menu → Backups → Make backup</div>panel on</div><div class=vfd>VFD B (duplicate)<div class=scr style="min-height:70px">Restore → All parameters</div>panel moved here</div></div><a class=btn href="manual.html?p=43">Panel removal p.43</a><a class=btn href="manual.html?p=238">Backup p.238</a></div>
+<div class=card><h3>Factory Reset</h3><ol id=fr2></ol><a class=btn href="manual.html?p=393&q=96.06">Param 96.06</a></div></section>
+<section id=s5><div class=card><h3>Expert troubleshooting assistant</h3>Enter voltages you measured (DC V, to AGND/DCOM).<div id=tt></div><button class=btn onclick=diag()>Diagnose</button><div id=dg></div></div>
+<div class=card>Control chain diagrams: manual p.375+ <a class=btn href="manual.html?p=375">Open p.375</a><a class=btn href="manual.html?p=107">p.107</a></div></section>
+<section id=s6><div class=card><h3>Start-up, control with I/O and ID run (p.23–42)</h3><div id=ls></div></div></section>
+<section id=s7><div class=card><h3>Macros &amp; application examples</h3><select id=exs onchange=exv()></select><div id=exo></div></div></section>
+<section id=s8><div class=card><h3>Control chain diagrams (p.375–392)</h3>Rotated upright. Scroll/zoom. <select id=cs onchange=cv()></select><button class=btn onclick=cz(-1)>−</button><button class=btn onclick=cz(1)>+</button><div class=zw><img id=ci></div></div></section>
+<script>
+var $=function(i){return document.getElementById(i)};
+var V={},DEF={'30.14':60,'30.13':0,'23.12':30,'23.13':30,'99.06':10,'01.06':0,'01.07':0,'12.11':0,'20.01':0,'22.11':0,'40.07':0};var P=PARAMS.map(function(p){return [p[0],p[1],'',0,/read-only|Actual|^01\./.test(p[2].slice(0,60))&&/^(01|05|06|07|12\.1[1-9]|40\.0[1-4])/.test(p[0])?'r':'w',p[3],p[2],p[4]]});P.forEach(function(p){p.v=DEF[p[0]]||0});var S={mode:'OFF',loc:0,ref:50,f:0,view:0,menu:0,i:0,pid:0};
+var tabs=['Panel','Setup','Parameters','Faults','Backup/Reset','Troubleshoot','Lessons','Macros','Diagrams'];
+$('nv').innerHTML=tabs.map(function(t,i){return '<button onclick=tab('+i+')>'+t+'</button>'}).join('');
+function tab(n){for(var i=0;i<9;i++){$('s'+i).className=i==n?'on':'';$('nv').children[i].className=i==n?'on':''}}tab(0);
+function pv(n){return P.filter(function(p){return p[0]==n})[0]}
+function sim(){var mx=pv('30.14').v,mn=pv('30.13').v,t=0;if(S.mode!='OFF'){t=S.mode=='AUTO'&&!S.loc?(+$('ai').value/10)*mx:S.ref/100*mx;t=Math.max(mn,Math.min(mx,t))}
+S.t=t;draw()}
+setInterval(function(){var r=60/Math.max(1,pv(S.t>S.f?'23.12':'23.13').v);S.f+=Math.max(-r*.2,Math.min(r*.2,S.t-S.f));pv('01.06').v=S.f.toFixed(1);pv('01.07').v=(S.f/pv('30.14').v*pv('99.06').v*.9).toFixed(1);pv('12.11').v=(+$('ai').value).toFixed(2);draw()},200);
+function draw(){var h='<div class=hd><span>'+(S.loc?'Loc':'Rem')+' '+S.mode+'</span><span>'+(S.f>0.1?'⟳':'■')+'</span></div>';
+if(S.menu){h+='<div class=r>Menu</div>'+['Parameters','Backups','Home view','Faults'].map(function(m,i){return '<div class="'+(i==S.i?'sel':'')+'">'+m+'</div>'}).join('')+'<div class=sf><span>Exit</span><span>Select</span></div>'}
+else if(S.flt){h+='<div class="r">'+(S.flt[4]=='F'?'FAULT ':'WARNING ')+S.flt[0]+'</div><div>'+S.flt[1]+'</div><div class=sf><span>Reset</span><span>Details</span></div>'}else{h+='<div class=r>'+(S.hv?S.hv+' = '+pv(S.hv).v:'')+'</div><div class=r>'+pv('01.06').v+' Hz</div><div class=r>'+pv('01.07').v+' A</div><div class=r>'+pv('12.11').v+' V</div><div class=sf><span>Options</span><span>Menu</span></div>'}$('scr').innerHTML=h}
+function mode(m){S.mode=m;sim()}function lr(){S.loc=1-S.loc;sim()}function bump(d){S.ref=Math.max(0,Math.min(100,S.ref+d*5));sim()}
+function soft(k){if(S.flt&&k=='L'){S.flt=null;draw();return}if(k=='R'&&!S.menu)S.menu=1;else if(k=='L'&&S.menu)S.menu=0;else if(k=='R'&&S.menu){tab(S.i==0?2:S.i==3?3:S.i==1?4:0);S.menu=0}draw()}
+function nav(d){if(S.menu)S.i=(S.i+d+4)%4;draw()}function helpK(){alert('Help: press Menu (soft right) to open the main menu. Manual p.45–48.')}
+var B=function(t){return '<span class=b>'+t+'</span>'};
+function path(p){return [B('Menu'),'→',B('▼ Parameters'),'→',B('Complete list'),'→',B('Group '+p[0].slice(0,2)),'→',B(p[0]),'→',B('Edit'),B('▲▼'),B('Save')].join(' ')}
+function ps(){var q=$('q').value.toLowerCase(),r=P.filter(function(p){return !q||(p[0]+' '+p[1]+' '+p[6]).toLowerCase().indexOf(q)>-1}),n=r.length;$('pr').innerHTML='<div>'+n+' parameters'+(n>40?' (showing 40, refine search)':'')+'</div>'+r.slice(0,40).map(function(p){var g=p[7]?'<br><small>Range '+p[7][0]+' … '+p[7][1]+'</small>':'';return '<div class=card><b>'+p[0]+' '+p[1]+'</b>'+(p[4]=='w'?'<input type=number value='+p.v+' onchange="setP(\''+p[0]+'\',this.value)">':'<i> read-only: '+p.v+'</i>')+g+'<br><small>'+p[6].slice(0,220)+'</small><div style="margin:6px 0;line-height:2">'+path(p)+'</div><button class=btn onclick="home(\''+p[0]+'\')">Show on Home view</button><a class=btn href="manual.html?p='+p[5]+'&q='+p[0]+'">Manual p.'+p[5]+'</a></div>'}).join('')}
+function setP(n,v){var p=pv(n),x=+v;if(p[7]){var lo=parseFloat(p[7][0].replace(/,/g,'')),hi=parseFloat(p[7][1].replace(/,/g,''));if(!isNaN(lo)&&x<lo||!isNaN(hi)&&x>hi){alert('Out of range ('+p[7][0]+'…'+p[7][1]+'). Value not changed.');ps();return}}p.v=x;sim();ps()}
+function home(n){S.hv=n;alert('Home view now shows '+n+'. Select Panel tab.');draw()}
+ps();
+var F=FAULTS;S.flt=null;function fs(){var q=$('fq').value.toLowerCase(),r=F.filter(function(f){return !q||(f[0]+' '+f[1]+' '+f[2]).toLowerCase().indexOf(q)>-1});$('fr').innerHTML='<div>'+r.length+' results (showing 40)</div>'+r.slice(0,40).map(function(f){return '<div class=card><b>'+(f[4]=='F'?'FAULT ':'WARNING ')+f[0]+' '+f[1]+'</b><br><small>'+f[2]+'</small><br><button class=btn onclick="trig(\''+f[0]+'\')">Simulate</button><a class=btn href="manual.html?p='+f[3]+'&q='+f[0]+'">Manual p.'+f[3]+'</a></div>'}).join('')}
+function trig(c){var f=F.filter(function(x){return x[0]==c})[0];S.flt=f;if(f[4]=='F'){S.mode='OFF';S.f=0}tab(0);sim()}
+fs();
+var T={h:[['2 AI1','Output frequency/speed reference 0…10 V'],['5 AI2','Actual feedback 0…20 mA']].concat([["1 SCR", "Signal cable shield"], ["3 AGND", "Analog input common"], ["4 +10V", "Reference voltage 10 V DC"], ["6 AGND", "Analog input common"], ["7 AO1", "Output frequency 0\u202610 V"], ["8 AO2", "Motor current 0\u202620 mA"], ["9 AGND", "Analog output common"], ["10 +24V", "Aux. 24 V DC, max 250 mA"], ["11 DGND", "Aux. voltage common"], ["12 DCOM", "Digital input common"], ["13 DI1", "Stop (0) / Start (1)"], ["14 DI2", "Not configured"], ["15 DI3", "Constant frequency/speed selection"], ["16 DI4", "Start interlock 1 (1 = allow start)"], ["17 DI5", "Not configured"], ["18 DI6", "Not configured"], ["19-21 RO1", "Damper control (energize damper)"], ["22-24 RO2", "Running"], ["25-27 RO3", "Fault (-1)"]]),p:[['2 AI1','Panel setpoint ref / constant setpoint 0…10 V'],['5 AI2','PID feedback 0…20 mA']].concat([["1 SCR", "Signal cable shield"], ["3 AGND", "Analog input common"], ["4 +10V", "Reference voltage 10 V DC"], ["6 AGND", "Analog input common"], ["7 AO1", "Output frequency 0\u202610 V"], ["8 AO2", "Motor current 0\u202620 mA"], ["9 AGND", "Analog output common"], ["10 +24V", "Aux. 24 V DC, max 250 mA"], ["11 DGND", "Aux. voltage common"], ["12 DCOM", "Digital input common"], ["13 DI1", "Stop (0) / Start (1)"], ["14 DI2", "Not configured"], ["15 DI3", "Constant frequency/speed selection"], ["16 DI4", "Start interlock 1 (1 = allow start)"], ["17 DI5", "Not configured"], ["18 DI6", "Not configured"], ["19-21 RO1", "Damper control (energize damper)"], ["22-24 RO2", "Running"], ["25-27 RO3", "Fault (-1)"]])};
+function wire(){var m=$('mac').value;$('wr').innerHTML='<table>'+T[m].map(function(r){return '<tr><td>X1:'+r[0]+'</td><td>'+r[1]+'</td></tr>'}).join('')+'</table><i>Verified against manual p.'+(m=='h'?100:102)+'.</i><br><a class=btn href="manual.html?p='+(m=='h'?100:102)+'">Wiring diagram</a><a class=btn href="manual.html?p='+(m=='h'?99:101)+'">Panel refs</a><button class=btn onclick="alert(\'Wired for you: terminals set per macro.\')">Wire it for me</button>'}wire();
+function autoP(){var m=$('mac').value;pv('20.01').v=1;pv('22.11').v=m=='p'?2:1;pv('40.07').v=m=='p'?1:0;$('ap').innerHTML='20.01 =In1 Start, 22.11 ref set, 40.07 PID '+(m=='p'?'on':'off')+'. '+path(pv('20.01'));sim()}
+var X=[[1,137,'Supply fan, basic speed follower'],[2,138,'with interlock and status'],[3,140,'complete integration'],[4,142,'Supply fan, PID'],[5,144,'Cooling tower fan, speed follower'],[6,146,'Cooling tower, PID'],[7,149,'Chilled water pump'],[8,151,'Condenser water pump']];
+$('ex').innerHTML=X.map(function(x){return '<a class=btn href="manual.html?p='+x[1]+'">Ex.'+x[0]+' · p.'+x[1]+' '+x[2]+'</a>'}).join('<br>');
+$('bk').innerHTML=['Press '+B('Menu')+' on the panel.','Go to '+B('Backups')+' and select '+B('Make backup')+'.','Wait for “Backup completed”.','Remove the panel (p.43) and place it on the duplicate drive.','Select '+B('Restore')+' → all parameters. Confirm.'].map(function(s){return '<li>'+s+'</li>'}).join('');
+$('fr2').innerHTML=['Make a backup first.',B('Menu')+' → '+B('Parameters')+' → search 96.06.','Set Parameter restore to Restore defaults.','Save and wait for completion; re-enter motor data (group 99).'].map(function(s){return '<li>'+s+'</li>'}).join('');
+var tn=['+24V to DCOM','DI1 to DCOM (start)','AI1 to AGND','+10V to AGND'];$('tt').innerHTML=tn.map(function(n,i){return '<div class=fl>'+n+'<input id=t'+i+' type=number step=.1></div>'}).join('');
+function diag(){var v=[0,1,2,3].map(function(i){return parseFloat($('t'+i).value)}),o=[];
+if(v[0]<20||v[0]>28)o.push('+24V out of range: check for shorted DI wiring or DCOM; disconnect field wiring and re-measure.');
+if(v[1]<10)o.push('DI1 not high: start command not reaching drive. Check start contact; confirm 20.01 = In1 Start and drive in AUTO/REM.');
+if(v[2]<0.2)o.push('AI1 near 0V: speed ref zero; drive may run at min frequency. Check source, 22.11.');
+if(v[3]<9||v[3]>11)o.push('+10V out of range: remove load/short on AI1 pot.');
+$('dg').innerHTML=o.length?o.map(function(s){return '<p class=bad>• '+s+'</p>'}).join(''):'<p class=ok>Terminal voltages look normal. Check interlock (DI2), faults, and 20.xx/22.xx settings.</p>'}
+
+function lv(){var p=+$('lp').value;$('lo').innerHTML='<img style="width:100%" src="'+IMG['p-'+p]+'"><div class=st>'+(LESS[p]||'')+'</div><a class=btn href="manual.html?p='+p+'">Manual p.'+p+'</a>'}
+var lp='<select id=lp onchange=lv()>';for(var i=23;i<=48;i++)lp+='<option value='+i+'>Step: manual p.'+i+(i==43?' (remove panel)':i==44?' (panel layout)':i==48?' (Home view)':'')+'</option>';$('ls').innerHTML=lp+'</select><button class=btn onclick="lp.value=Math.max(23,+lp.value-1);lv()">◀ Prev</button><button class=btn onclick="lp.value=Math.min(48,+lp.value+1);lv()">Next ▶</button><button class=btn onclick=idrun()>Practice ID run</button><div id=lo></div>';var lp=$('lp');lv();
+function idrun(){tab(0);S.menu=0;var k=0,t=setInterval(function(){k+=10;$('scr').innerHTML='<div class=hd><span>Loc ID run</span></div><div class=r>Motor ID run</div><div>'+k+'% – motor energized, do not touch</div>';if(k>=100){clearInterval(t);pv('99.06').v=pv('99.06').v;alert('ID run complete (p.41–42). Warning AFF6 clears; set motor data in group 99 first.');draw()}},400)}
+var EX=[[1,137,'Supply fan, basic speed follower',0],[2,138,'Supply fan, basic speed follower with interlock and status',0],[3,140,'Supply fan, speed follower complete integration',0],[4,142,'Supply fan, PID control',1],[5,144,'Cooling tower fan, speed follower',0],[6,146,'Cooling tower, PID',1],[7,149,'Chilled water pump',1],[8,151,'Condenser water pump',1]];
+$('exs').innerHTML=EX.map(function(x,i){return '<option value='+i+'>Ex.'+x[0]+' '+x[2]+'</option>'}).join('');
+function exv(){var x=EX[+$('exs').value],o='';[0,1,2].forEach(function(d){var p=x[1]+d;if(LESS[p]&&p<=x[1]+(x[0]==3||x[0]==6||x[0]==7?1:0))o+='<img style="width:100%" src="'+IMG['p-'+p]+'"><div class=st>'+LESS[p]+'</div>'});$('exo').innerHTML=o+'<button class=btn onclick="useEx('+x[3]+')">Load into simulator ('+(x[3]?'PID':'speed follower')+')</button><a class=btn href="manual.html?p='+x[1]+'">Manual p.'+x[1]+'</a>'}
+function useEx(pid){pv('20.01').v=1;pv('40.07').v=pid;S.pid=pid;tab(0);sim()}exv();
+var CP=Object.keys(CHAIN);$('cs').innerHTML=CP.map(function(p){return '<option value='+p+'>Diagram p.'+p+'</option>'}).join('');var zw=250;
+function cv(){$('ci').src=IMG['c-'+$('cs').value];$('ci').style.width=zw+'%'}function cz(d){zw=Math.max(100,Math.min(500,zw+d*75));cv()}cv();
+var T0=0;function skip(){clearInterval(ti);$('sp').style.display='none'}
+var m='ACH580 Training Simulator. Created & designed by HVAC technician, Matthew Pienta',k=0,ti=setInterval(function(){k++;var h='';for(var i=0;i<Math.min(k,m.length);i++){var c=m[i];h+=i==0?'<span class=f0>'+c+'</span>':(k>=m.length&&i>=m.length-12?'<span class=ic>'+c+'</span>':c)}$('tx').innerHTML=h;if(k>m.length+5&&!window.g)window.g=1},60);setTimeout(skip,13000);sim();
+</script></body></html>
